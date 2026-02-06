@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tournament Fixtures & Standings</title>
+    <title>Masti Mantaralaya UTT</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap');
 
         :root {
             --glass-bg: rgba(255, 255, 255, 0.05);
@@ -13,6 +13,8 @@
             --glass-highlight: rgba(255, 255, 255, 0.15);
             --text-color: #ffffff;
             --accent-color: #ffd700;
+            --win-color: #4ade80;
+            --lose-color: rgba(255, 255, 255, 0.4);
         }
 
         body {
@@ -34,19 +36,47 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        h1, h2 {
+        /* --- ANIMATED HEADING --- */
+        h1 { 
             text-align: center;
             text-transform: uppercase;
+            font-weight: 900;
             letter-spacing: 2px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            font-size: 2.5rem; 
+            line-height: 1.2; 
+            margin-bottom: 2rem;
+            
+            /* Gradient Text */
+            background: linear-gradient(to right, #ffd700, #ffaa00, #ffd700);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% auto;
+            
+            animation: shine 3s linear infinite, slideDown 1s ease-out;
         }
 
-        h1 { margin-bottom: 2rem; font-size: 2.5rem; }
-        h2 { margin-top: 3rem; margin-bottom: 1.5rem; font-size: 1.8rem; opacity: 0.9; }
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        h2 { 
+            text-align: center; 
+            margin-top: 3rem; 
+            margin-bottom: 1.5rem; 
+            font-size: 1.5rem; 
+            opacity: 0.9; 
+            letter-spacing: 1px;
+        }
 
         /* Glassmorphism Card Style */
         .glass-card {
@@ -74,7 +104,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 300px;
+            min-width: 500px;
         }
 
         th {
@@ -92,54 +122,28 @@
             border-bottom: 1px solid var(--glass-border);
         }
 
-        tr:last-child td {
-            border-bottom: none;
-        }
+        tr:last-child td { border-bottom: none; }
 
-        .rank-col {
-            font-weight: bold;
-            text-align: center;
-            width: 50px;
-        }
-        
-        .points-col {
-            font-weight: bold;
-            color: var(--accent-color);
-            text-align: center;
-        }
+        .rank-col { font-weight: bold; text-align: center; width: 50px; }
+        .points-col { font-weight: bold; color: var(--accent-color); text-align: center; }
+        .stat-col { text-align: center; }
 
-        .stat-col {
-            text-align: center;
-        }
-
-        /* Team Roster Section */
+        /* Teams Grid */
         .teams-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 1rem;
             margin-bottom: 3rem;
         }
 
-        .team-badge {
-            text-align: center;
-        }
-
-        .team-name {
-            font-weight: 700;
-            color: var(--accent-color);
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .team-players {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
+        .team-badge { text-align: center; }
+        .team-name { font-weight: 700; color: var(--accent-color); display: block; margin-bottom: 0.5rem; }
+        .team-players { font-size: 0.9rem; opacity: 0.8; }
 
         /* Fixtures Grid */
         .rounds-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted for mobile */
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 1.5rem;
         }
 
@@ -148,35 +152,96 @@
             margin-bottom: 1rem;
             border-bottom: 1px solid var(--glass-border);
             padding-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            color: var(--accent-color);
         }
 
+        /* FLEX FIXED MATCHUP */
         .matchup {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 0.8rem;
             background: rgba(0,0,0,0.2);
-            padding: 0.8rem;
+            padding: 1rem;
             border-radius: 8px;
+            gap: 10px;
         }
 
         .match-side {
-            width: 45%;
+            flex: 1;
+            width: 0; 
+            font-size: 1rem; 
+            line-height: 1.2;
+            overflow-wrap: break-word;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .match-side.right { 
+            text-align: right; 
+            align-items: flex-end;
+        }
+        
+        /* --- NEW SCORE BOARD STYLE --- */
+        .score-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 0 0 auto;
+            min-width: 80px; 
+            text-align: center;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 5px 10px;
+        }
+
+        .set-score {
+            font-size: 1.4rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 2px;
+        }
+        
+        .point-details {
+            font-size: 0.65rem;
+            opacity: 0.8;
+            font-family: monospace;
+            white-space: nowrap;
+        }
+
+        .vs-text { font-weight: bold; color: var(--accent-color); font-size: 0.9rem; }
+
+        /* --- WINNER ANIMATIONS --- */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); text-shadow: 0 0 10px rgba(74, 222, 128, 0.5); }
+            100% { transform: scale(1); }
+        }
+
+        .winner-text { 
+            color: var(--win-color); 
+            font-weight: 900; 
+            animation: heartbeat 2s infinite ease-in-out;
+        }
+        
+        .winner-text::after {
+            content: " 🏆"; /* Adds trophy icon automatically */
+            font-size: 1rem;
+        }
+        
+        /* Right align trophy fix */
+        .match-side.right.winner-text::after { content: none; }
+        .match-side.right.winner-text::before { content: "🏆 "; font-size: 1rem; }
+
+        .loser-text { 
+            color: var(--lose-color); 
             font-size: 0.9rem;
         }
 
-        .match-side.right {
-            text-align: right;
-        }
-
-        .vs {
-            font-weight: bold;
-            color: var(--accent-color);
-            font-size: 0.8rem;
-        }
+        /* Color coding the big set scores */
+        .score-green { color: var(--win-color); }
+        .score-gray { color: var(--lose-color); }
 
         /* Final Section */
         .final-section {
@@ -201,41 +266,24 @@
             padding: 1rem 0;
         }
 
-        .trophy {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
+        .trophy { font-size: 2rem; margin-bottom: 10px; }
 
-        /* Mobile Responsive Tweaks */
+        /* Mobile Responsive */
         @media (max-width: 600px) {
             body { padding: 1rem; }
-            h1 { font-size: 1.8rem; margin-bottom: 1.5rem; }
-            h2 { font-size: 1.5rem; margin-top: 2rem; }
+            h1 { font-size: 1.5rem; margin-bottom: 1.5rem; }
             
-            .container { width: 100%; }
-
-            .matchup { 
-                flex-direction: column; 
-                gap: 8px; 
-                text-align: center; 
-                padding: 1rem;
-            }
+            .matchup { flex-direction: column; gap: 12px; text-align: center; padding: 1rem; }
+            .match-side { width: 100%; font-size: 1.1rem; flex: auto; align-items: center; }
+            .match-side.right { text-align: center; align-items: center; }
             
-            .match-side { 
-                width: 100%; 
-                font-size: 1rem;
-            }
+            /* Adjust trophy position for mobile stack */
+            .match-side.right.winner-text::before { content: none; }
+            .match-side.right.winner-text::after { content: " 🏆"; }
+
+            .score-display { width: 100%; padding: 5px 0; background: transparent; }
+            .set-score { font-size: 1.8rem; background: rgba(0,0,0,0.3); padding: 0 15px; border-radius: 20px; }
             
-            .match-side.right { 
-                text-align: center; 
-            }
-
-            .vs {
-                margin: 5px 0;
-                opacity: 0.7;
-                font-size: 0.7rem;
-            }
-
             th, td { padding: 0.8rem 0.5rem; font-size: 0.85rem; }
         }
     </style>
@@ -243,7 +291,7 @@
 <body>
 
 <div class="container">
-    <h1>Double Round Robin</h1>
+    <h1>Masti Mantaralaya<br>Ultimate Table Tennis</h1>
 
     <div class="teams-grid">
         <div class="glass-card team-badge">
@@ -284,34 +332,66 @@
         </div>
     </div>
 
-    <h2>Schedule</h2>
+    <h2>Match Schedule & Results</h2>
     <div class="rounds-grid">
         
         <div class="glass-card">
             <div class="round-header">Round 1</div>
+            
             <div class="matchup">
-                <div class="match-side">Sanskar, Sarthak</div>
-                <div class="vs">VS</div>
-                <div class="match-side right">Suprit, Japneet</div>
+                <div class="match-side loser-text">Sanskar, Sarthak</div>
+                
+                <div class="score-display">
+                    <div class="set-score">
+                        <span class="score-gray">0</span> - <span class="score-green">2</span>
+                    </div>
+                    <div class="point-details">18-21, 15-21</div>
+                </div>
+
+                <div class="match-side right winner-text">Suprit, Japneet</div>
             </div>
+
             <div class="matchup">
-                <div class="match-side">Pratham, Bhavya</div>
-                <div class="vs">VS</div>
-                <div class="match-side right">Mradul, Ayush</div>
+                <div class="match-side winner-text">Pratham, Bhavya</div>
+                
+                <div class="score-display">
+                    <div class="set-score">
+                        <span class="score-green">2</span> - <span class="score-gray">0</span>
+                    </div>
+                    <div class="point-details">21-16, 21-12</div>
+                </div>
+
+                <div class="match-side right loser-text">Mradul, Ayush</div>
             </div>
         </div>
 
         <div class="glass-card">
             <div class="round-header">Round 2</div>
+            
             <div class="matchup">
-                <div class="match-side">Sanskar, Sarthak</div>
-                <div class="vs">VS</div>
-                <div class="match-side right">Mradul, Ayush</div>
+                <div class="match-side loser-text">Sanskar, Sarthak</div>
+                
+                <div class="score-display">
+                    <div class="set-score">
+                        <span class="score-gray">0</span> - <span class="score-green">2</span>
+                    </div>
+                    <div class="point-details">17-21, 19-21</div>
+                </div>
+
+                <div class="match-side right winner-text">Mradul, Ayush</div>
             </div>
+
             <div class="matchup">
-                <div class="match-side">Suprit, Japneet</div>
-                <div class="vs">VS</div>
-                <div class="match-side right">Pratham, Bhavya</div>
+                <div class="match-side loser-text">Suprit, Japneet</div>
+                
+                <div class="score-display">
+                    <div class="set-score">
+                        <span class="score-gray">1</span> - <span class="score-green">2</span>
+                    </div>
+                    <div class="point-details">21-14, 21-23, 16-21</div>
+                </div>
+
+                <div class="match-side right winner-text">Pratham, Bhavya</div>
             </div>
         </div>
 
@@ -319,12 +399,12 @@
             <div class="round-header">Round 3</div>
             <div class="matchup">
                 <div class="match-side">Sanskar, Sarthak</div>
-                <div class="vs">VS</div>
+                <div class="score-display"><span class="vs-text">VS</span></div>
                 <div class="match-side right">Pratham, Bhavya</div>
             </div>
             <div class="matchup">
                 <div class="match-side">Mradul, Ayush</div>
-                <div class="vs">VS</div>
+                <div class="score-display"><span class="vs-text">VS</span></div>
                 <div class="match-side right">Suprit, Japneet</div>
             </div>
         </div>
@@ -333,12 +413,12 @@
             <div class="round-header">Round 4</div>
             <div class="matchup">
                 <div class="match-side">Suprit, Japneet</div>
-                <div class="vs">VS</div>
+                <div class="score-display"><span class="vs-text">VS</span></div>
                 <div class="match-side right">Sanskar, Sarthak</div>
             </div>
             <div class="matchup">
                 <div class="match-side">Mradul, Ayush</div>
-                <div class="vs">VS</div>
+                <div class="score-display"><span class="vs-text">VS</span></div>
                 <div class="match-side right">Pratham, Bhavya</div>
             </div>
         </div>
@@ -347,12 +427,12 @@
             <div class="round-header">Round 5</div>
             <div class="matchup">
                 <div class="match-side">Mradul, Ayush</div>
-                <div class="vs">VS</div>
+                <div class="score-display"><span class="vs-text">VS</span></div>
                 <div class="match-side right">Sanskar, Sarthak</div>
             </div>
             <div class="matchup">
                 <div class="match-side">Pratham, Bhavya</div>
-                <div class="vs">VS</div>
+                <div class="score-display"><span class="vs-text">VS</span></div>
                 <div class="match-side right">Suprit, Japneet</div>
             </div>
         </div>
@@ -361,12 +441,12 @@
             <div class="round-header">Round 6</div>
             <div class="matchup">
                 <div class="match-side">Pratham, Bhavya</div>
-                <div class="vs">VS</div>
+                <div class="score-display"><span class="vs-text">VS</span></div>
                 <div class="match-side right">Sanskar, Sarthak</div>
             </div>
             <div class="matchup">
                 <div class="match-side">Suprit, Japneet</div>
-                <div class="vs">VS</div>
+                <div class="score-display"><span class="vs-text">VS</span></div>
                 <div class="match-side right">Mradul, Ayush</div>
             </div>
         </div>
@@ -378,7 +458,7 @@
             <div class="trophy">🏆 GRAND FINAL 🏆</div>
             <div class="final-content">
                 <span id="finalTeam1">TBD</span>
-                <span class="vs">VS</span>
+                <span class="vs-text">VS</span>
                 <span id="finalTeam2">TBD</span>
             </div>
             <div style="font-size: 0.8rem; opacity: 0.7; margin-top: 10px;">
@@ -390,27 +470,32 @@
 </div>
 
 <script>
-    // Team Data - Change Points (W/L) here to see the table re-sort automatically
+    // Updated Stats based on valid games provided
     const teams = [
-        { id: 1, name: "Team 1", players: "Sanskar & Sarthak", played: 1, won: 0, lost: 1 },
-        { id: 2, name: "Team 2", players: "Pratham & Bhavya", played: 1, won: 1, lost: 0 },
-        { id: 3, name: "Team 3", players: "Mradul & Ayush", played: 1, won: 0, lost: 1 },
-        { id: 4, name: "Team 4", players: "Suprit & Japneet", played: 1, won: 1, lost: 0 }
+        // T1: Lost to T4, Lost to T3
+        { id: 1, name: "Team 1", players: "Sanskar & Sarthak", played: 2, won: 0, lost: 2 },
+        
+        // T2: Won against T3, Won against T4
+        { id: 2, name: "Team 2", players: "Pratham & Bhavya", played: 2, won: 2, lost: 0 },
+        
+        // T3: Lost to T2, Won against T1
+        { id: 3, name: "Team 3", players: "Mradul & Ayush", played: 2, won: 1, lost: 1 },
+        
+        // T4: Won against T1, Lost to T2
+        { id: 4, name: "Team 4", players: "Suprit & Japneet", played: 2, won: 1, lost: 1 }
     ];
 
-    // Helper to calculate points (2 pts per win)
     function calculatePoints(team) {
         return team.won * 2;
     }
 
-    // Function to render the sorted table
     function renderTable() {
-        // Sort teams: Points Descending, then Won Descending
+        // Sort teams: Points Descending, then Wins Descending
         const sortedTeams = [...teams].sort((a, b) => {
             const pointsA = calculatePoints(a);
             const pointsB = calculatePoints(b);
             if (pointsB !== pointsA) return pointsB - pointsA;
-            return b.won - a.won; // Tie-breaker: Wins
+            return b.won - a.won; 
         });
 
         const tbody = document.getElementById('tableBody');
@@ -418,6 +503,12 @@
 
         sortedTeams.forEach((team, index) => {
             const tr = document.createElement('tr');
+            // Highlight row logic for top 2
+            let rowStyle = "";
+            if (index < 2) {
+                 rowStyle = "background: rgba(255, 215, 0, 0.05);";
+            }
+
             tr.innerHTML = `
                 <td class="rank-col">${index + 1}</td>
                 <td>
@@ -432,12 +523,10 @@
             tbody.appendChild(tr);
         });
 
-        // Update Final Card based on Top 2
         document.getElementById('finalTeam1').innerText = sortedTeams[0].name;
         document.getElementById('finalTeam2').innerText = sortedTeams[1].name;
     }
 
-    // Initialize
     renderTable();
 </script>
 
