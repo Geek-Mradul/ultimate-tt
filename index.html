@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournament Fixtures & Standings</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap');
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            --text-color: #ffffff;
+            --accent-color: #ffd700;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460, #533483);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1, h2 {
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        h1 { margin-bottom: 2rem; font-size: 2.5rem; }
+        h2 { margin-top: 3rem; margin-bottom: 1.5rem; font-size: 1.8rem; opacity: 0.9; }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            background: var(--glass-highlight);
+        }
+
+        /* Points Table Styles */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 300px;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .rank-col {
+            font-weight: bold;
+            text-align: center;
+            width: 50px;
+        }
+        
+        .points-col {
+            font-weight: bold;
+            color: var(--accent-color);
+            text-align: center;
+        }
+
+        .stat-col {
+            text-align: center;
+        }
+
+        /* Team Roster Section */
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .team-badge {
+            text-align: center;
+        }
+
+        .team-name {
+            font-weight: 700;
+            color: var(--accent-color);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-players {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Fixtures Grid */
+        .rounds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted for mobile */
+            gap: 1.5rem;
+        }
+
+        .round-header {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .matchup {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            background: rgba(0,0,0,0.2);
+            padding: 0.8rem;
+            border-radius: 8px;
+        }
+
+        .match-side {
+            width: 45%;
+            font-size: 0.9rem;
+        }
+
+        .match-side.right {
+            text-align: right;
+        }
+
+        .vs {
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 0.8rem;
+        }
+
+        /* Final Section */
+        .final-section {
+            margin-top: 4rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .final-card {
+            max-width: 500px;
+            margin: 0 auto;
+            border: 2px solid var(--accent-color);
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .final-content {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 1rem 0;
+        }
+
+        .trophy {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        /* Mobile Responsive Tweaks */
+        @media (max-width: 600px) {
+            body { padding: 1rem; }
+            h1 { font-size: 1.8rem; margin-bottom: 1.5rem; }
+            h2 { font-size: 1.5rem; margin-top: 2rem; }
+            
+            .container { width: 100%; }
+
+            .matchup { 
+                flex-direction: column; 
+                gap: 8px; 
+                text-align: center; 
+                padding: 1rem;
+            }
+            
+            .match-side { 
+                width: 100%; 
+                font-size: 1rem;
+            }
+            
+            .match-side.right { 
+                text-align: center; 
+            }
+
+            .vs {
+                margin: 5px 0;
+                opacity: 0.7;
+                font-size: 0.7rem;
+            }
+
+            th, td { padding: 0.8rem 0.5rem; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Double Round Robin</h1>
+
+    <div class="teams-grid">
+        <div class="glass-card team-badge">
+            <span class="team-name">Team 1</span>
+            <span class="team-players">Sanskar & Sarthak</span>
+        </div>
+        <div class="glass-card team-badge">
+            <span class="team-name">Team 2</span>
+            <span class="team-players">Pratham & Bhavya</span>
+        </div>
+        <div class="glass-card team-badge">
+            <span class="team-name">Team 3</span>
+            <span class="team-players">Mradul & Ayush</span>
+        </div>
+        <div class="glass-card team-badge">
+            <span class="team-name">Team 4</span>
+            <span class="team-players">Suprit & Japneet</span>
+        </div>
+    </div>
+
+    <h2>Points Table</h2>
+    <div class="glass-card">
+        <div class="table-responsive">
+            <table id="pointsTable">
+                <thead>
+                    <tr>
+                        <th class="rank-col">#</th>
+                        <th style="text-align: left;">Team</th>
+                        <th class="stat-col">P</th>
+                        <th class="stat-col">W</th>
+                        <th class="stat-col">L</th>
+                        <th class="points-col">Pts</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h2>Schedule</h2>
+    <div class="rounds-grid">
+        
+        <div class="glass-card">
+            <div class="round-header">Round 1</div>
+            <div class="matchup">
+                <div class="match-side">Sanskar, Sarthak</div>
+                <div class="vs">VS</div>
+                <div class="match-side right">Suprit, Japneet</div>
+            </div>
+            <div class="matchup">
+                <div class="match-side">Pratham, Bhavya</div>
+                <div class="vs">VS</div>
+                <div class="match-side right">Mradul, Ayush</div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div class="round-header">Round 2</div>
+            <div class="matchup">
+                <div class="match-side">Sanskar, Sarthak</div>
+                <div class="vs">VS</div>
+                <div class="match-side right">Mradul, Ayush</div>
+            </div>
+            <div class="matchup">
+                <div class="match-side">Suprit, Japneet</div>
+                <div class="vs">VS</div>
+                <div class="match-side right">Pratham, Bhavya</div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div class="round-header">Round 3</div>
+            <div class="matchup">
+                <div class="match-side">Sanskar, Sarthak</div>
+                <div class="vs">VS</div>
+                <div class="match-side right">Pratham, Bhavya</div>
+            </div>
+            <div class="matchup">
+                <div class="match-side">Mradul, Ayush</div>
+                <div class="vs">VS</div>
+                <div class="match-side right">Suprit, Japneet</div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div class="round-header">Round 4</div>
+            <div class="matchup">
+                <div class="match-side">Suprit, Japneet</div>
+                <div class="vs">VS</div>
+                <div class="match-side right">Sanskar, Sarthak</div>
+            </div>
+            <div class="matchup">
+                <div class="match-side">Mradul, Ayush</div>
+                <div class="vs">VS</div>
+                <div class="match-side right">Pratham, Bhavya</div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div class="round-header">Round 5</div>
+            <div class="matchup">
+                <div class="match-side">Mradul, Ayush</div>
+                <div class="vs">VS</div>
+                <div class="match-side right">Sanskar, Sarthak</div>
+            </div>
+            <div class="matchup">
+                <div class="match-side">Pratham, Bhavya</div>
+                <div class="vs">VS</div>
+                <div class="match-side right">Suprit, Japneet</div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <div class="round-header">Round 6</div>
+            <div class="matchup">
+                <div class="match-side">Pratham, Bhavya</div>
+                <div class="vs">VS</div>
+                <div class="match-side right">Sanskar, Sarthak</div>
+            </div>
+            <div class="matchup">
+                <div class="match-side">Suprit, Japneet</div>
+                <div class="vs">VS</div>
+                <div class="match-side right">Mradul, Ayush</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="final-section">
+        <div class="glass-card final-card">
+            <div class="trophy">🏆 GRAND FINAL 🏆</div>
+            <div class="final-content">
+                <span id="finalTeam1">TBD</span>
+                <span class="vs">VS</span>
+                <span id="finalTeam2">TBD</span>
+            </div>
+            <div style="font-size: 0.8rem; opacity: 0.7; margin-top: 10px;">
+                Top 2 teams qualify automatically
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Team Data - Change Points (W/L) here to see the table re-sort automatically
+    const teams = [
+        { id: 1, name: "Team 1", players: "Sanskar & Sarthak", played: 0, won: 0, lost: 0 },
+        { id: 2, name: "Team 2", players: "Pratham & Bhavya", played: 0, won: 0, lost: 0 },
+        { id: 3, name: "Team 3", players: "Mradul & Ayush", played: 0, won: 0, lost: 0 },
+        { id: 4, name: "Team 4", players: "Suprit & Japneet", played: 0, won: 0, lost: 0 }
+    ];
+
+    // Helper to calculate points (2 pts per win)
+    function calculatePoints(team) {
+        return team.won * 2;
+    }
+
+    // Function to render the sorted table
+    function renderTable() {
+        // Sort teams: Points Descending, then Won Descending
+        const sortedTeams = [...teams].sort((a, b) => {
+            const pointsA = calculatePoints(a);
+            const pointsB = calculatePoints(b);
+            if (pointsB !== pointsA) return pointsB - pointsA;
+            return b.won - a.won; // Tie-breaker: Wins
+        });
+
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+
+        sortedTeams.forEach((team, index) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="rank-col">${index + 1}</td>
+                <td>
+                    <div style="font-weight:bold; color:var(--accent-color)">${team.name}</div>
+                    <div style="font-size:0.8em; opacity:0.8">${team.players}</div>
+                </td>
+                <td class="stat-col">${team.played}</td>
+                <td class="stat-col">${team.won}</td>
+                <td class="stat-col">${team.lost}</td>
+                <td class="points-col">${calculatePoints(team)}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        // Update Final Card based on Top 2
+        document.getElementById('finalTeam1').innerText = sortedTeams[0].name;
+        document.getElementById('finalTeam2').innerText = sortedTeams[1].name;
+    }
+
+    // Initialize
+    renderTable();
+</script>
+
+</body>
+</html>
