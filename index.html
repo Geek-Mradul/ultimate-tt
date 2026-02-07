@@ -49,14 +49,11 @@
             font-size: 2.5rem; 
             line-height: 1.2; 
             margin-bottom: 2rem;
-            
-            /* Gradient Text */
             background: linear-gradient(to right, #ffd700, #ffaa00, #ffd700);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             background-size: 200% auto;
-            
             animation: shine 3s linear infinite, slideDown 1s ease-out;
         }
 
@@ -230,7 +227,6 @@
             font-size: 1rem;
         }
         
-        /* Right align trophy fix */
         .match-side.right.winner-text::after { content: none; }
         .match-side.right.winner-text::before { content: "🏆 "; font-size: 1rem; }
 
@@ -239,7 +235,6 @@
             font-size: 0.9rem;
         }
 
-        /* Color coding the big set scores */
         .score-green { color: var(--win-color); }
         .score-gray { color: var(--lose-color); }
 
@@ -268,22 +263,16 @@
 
         .trophy { font-size: 2rem; margin-bottom: 10px; }
 
-        /* Mobile Responsive */
         @media (max-width: 600px) {
             body { padding: 1rem; }
             h1 { font-size: 1.5rem; margin-bottom: 1.5rem; }
-            
             .matchup { flex-direction: column; gap: 12px; text-align: center; padding: 1rem; }
             .match-side { width: 100%; font-size: 1.1rem; flex: auto; align-items: center; }
             .match-side.right { text-align: center; align-items: center; }
-            
-            /* Adjust trophy position for mobile stack */
             .match-side.right.winner-text::before { content: none; }
             .match-side.right.winner-text::after { content: " 🏆"; }
-
             .score-display { width: 100%; padding: 5px 0; background: transparent; }
             .set-score { font-size: 1.8rem; background: rgba(0,0,0,0.3); padding: 0 15px; border-radius: 20px; }
-            
             th, td { padding: 0.8rem 0.5rem; font-size: 0.85rem; }
         }
     </style>
@@ -296,7 +285,7 @@
     <div class="teams-grid">
         <div class="glass-card team-badge">
             <span class="team-name">Team 1</span>
-            <span class="team-players">Sanskar & Divvya</span>
+            <span class="team-players">Sanskar & Sarthak/Divvya</span>
         </div>
         <div class="glass-card team-badge">
             <span class="team-name">Team 2</span>
@@ -339,7 +328,7 @@
             <div class="round-header">Round 1</div>
             
             <div class="matchup">
-                <div class="match-side loser-text">Sanskar, Divvya</div>
+                <div class="match-side loser-text">Sanskar, Sarthak</div>
                 
                 <div class="score-display">
                     <div class="set-score">
@@ -369,7 +358,7 @@
             <div class="round-header">Round 2</div>
             
             <div class="matchup">
-                <div class="match-side loser-text">Sanskar, Divvya</div>
+                <div class="match-side loser-text">Sanskar, Sarthak</div>
                 
                 <div class="score-display">
                     <div class="set-score">
@@ -502,18 +491,11 @@
 </div>
 
 <script>
-    // Updated Stats based on valid games provided
     const teams = [
-        // T1: Played 4, Won 1 (vs T4), Lost 3 (vs T2, T3, T4)
-        { id: 1, name: "Team 1", players: "Sanskar & Divvya", played: 4, won: 1, lost: 3 },
-        
-        // T2: Played 4, Won 4 (Undefeated so far)
+        // T1: Played 4, Won 1, Lost 3. Name updated to reflect both players.
+        { id: 1, name: "Team 1", players: "Sanskar & Sarthak/Divvya", played: 4, won: 1, lost: 3 },
         { id: 2, name: "Team 2", players: "Pratham & Bhavya", played: 4, won: 4, lost: 0 },
-        
-        // T3: Played 4, Won 1 (vs T1), Lost 3 (vs T2, T4, T2)
         { id: 3, name: "Team 3", players: "Mradul & Ayush", played: 4, won: 1, lost: 3 },
-        
-        // T4: Played 4, Won 2 (vs T1, T3), Lost 2 (vs T2, T1)
         { id: 4, name: "Team 4", players: "Suprit & Japneet", played: 4, won: 2, lost: 2 }
     ];
 
@@ -522,7 +504,6 @@
     }
 
     function renderTable() {
-        // Sort teams: Points Descending, then Wins Descending
         const sortedTeams = [...teams].sort((a, b) => {
             const pointsA = calculatePoints(a);
             const pointsB = calculatePoints(b);
@@ -535,7 +516,6 @@
 
         sortedTeams.forEach((team, index) => {
             const tr = document.createElement('tr');
-            // Highlight row logic for top 2
             let rowStyle = "";
             if (index < 2) {
                  rowStyle = "background: rgba(255, 215, 0, 0.05);";
