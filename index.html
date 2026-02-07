@@ -296,7 +296,7 @@
     <div class="teams-grid">
         <div class="glass-card team-badge">
             <span class="team-name">Team 1</span>
-            <span class="team-players">Sanskar & Sarthak</span>
+            <span class="team-players">Sanskar & Divvya</span>
         </div>
         <div class="glass-card team-badge">
             <span class="team-name">Team 2</span>
@@ -339,7 +339,7 @@
             <div class="round-header">Round 1</div>
             
             <div class="matchup">
-                <div class="match-side loser-text">Sanskar, Sarthak</div>
+                <div class="match-side loser-text">Sanskar, Divvya</div>
                 
                 <div class="score-display">
                     <div class="set-score">
@@ -369,7 +369,7 @@
             <div class="round-header">Round 2</div>
             
             <div class="matchup">
-                <div class="match-side loser-text">Sanskar, Sarthak</div>
+                <div class="match-side loser-text">Sanskar, Divvya</div>
                 
                 <div class="score-display">
                     <div class="set-score">
@@ -397,29 +397,61 @@
 
         <div class="glass-card">
             <div class="round-header">Round 3</div>
+            
             <div class="matchup">
-                <div class="match-side">Sanskar, Sarthak</div>
-                <div class="score-display"><span class="vs-text">VS</span></div>
-                <div class="match-side right">Pratham, Bhavya</div>
+                <div class="match-side loser-text">Sanskar, Divvya</div>
+                
+                <div class="score-display">
+                    <div class="set-score">
+                        <span class="score-gray">0</span> - <span class="score-green">2</span>
+                    </div>
+                    <div class="point-details">16-21, 15-21</div>
+                </div>
+
+                <div class="match-side right winner-text">Pratham, Bhavya</div>
             </div>
+
             <div class="matchup">
-                <div class="match-side">Mradul, Ayush</div>
-                <div class="score-display"><span class="vs-text">VS</span></div>
-                <div class="match-side right">Suprit, Japneet</div>
+                <div class="match-side loser-text">Mradul, Ayush</div>
+                
+                <div class="score-display">
+                    <div class="set-score">
+                        <span class="score-gray">0</span> - <span class="score-green">2</span>
+                    </div>
+                    <div class="point-details">15-21, 18-21</div>
+                </div>
+
+                <div class="match-side right winner-text">Suprit, Japneet</div>
             </div>
         </div>
 
         <div class="glass-card">
             <div class="round-header">Round 4</div>
+            
             <div class="matchup">
-                <div class="match-side">Suprit, Japneet</div>
-                <div class="score-display"><span class="vs-text">VS</span></div>
-                <div class="match-side right">Sanskar, Sarthak</div>
+                <div class="match-side loser-text">Suprit, Japneet</div>
+                
+                <div class="score-display">
+                    <div class="set-score">
+                        <span class="score-gray">0</span> - <span class="score-green">2</span>
+                    </div>
+                    <div class="point-details">14-21, 19-21</div>
+                </div>
+
+                <div class="match-side right winner-text">Sanskar, Divvya</div>
             </div>
+
             <div class="matchup">
-                <div class="match-side">Mradul, Ayush</div>
-                <div class="score-display"><span class="vs-text">VS</span></div>
-                <div class="match-side right">Pratham, Bhavya</div>
+                <div class="match-side loser-text">Mradul, Ayush</div>
+                
+                <div class="score-display">
+                    <div class="set-score">
+                        <span class="score-gray">0</span> - <span class="score-green">2</span>
+                    </div>
+                    <div class="point-details">19-21, 18-21</div>
+                </div>
+
+                <div class="match-side right winner-text">Pratham, Bhavya</div>
             </div>
         </div>
 
@@ -428,7 +460,7 @@
             <div class="matchup">
                 <div class="match-side">Mradul, Ayush</div>
                 <div class="score-display"><span class="vs-text">VS</span></div>
-                <div class="match-side right">Sanskar, Sarthak</div>
+                <div class="match-side right">Sanskar, Divvya</div>
             </div>
             <div class="matchup">
                 <div class="match-side">Pratham, Bhavya</div>
@@ -442,7 +474,7 @@
             <div class="matchup">
                 <div class="match-side">Pratham, Bhavya</div>
                 <div class="score-display"><span class="vs-text">VS</span></div>
-                <div class="match-side right">Sanskar, Sarthak</div>
+                <div class="match-side right">Sanskar, Divvya</div>
             </div>
             <div class="matchup">
                 <div class="match-side">Suprit, Japneet</div>
@@ -472,17 +504,17 @@
 <script>
     // Updated Stats based on valid games provided
     const teams = [
-        // T1: Lost to T4, Lost to T3
-        { id: 1, name: "Team 1", players: "Sanskar & Sarthak", played: 2, won: 0, lost: 2 },
+        // T1: Played 4, Won 1 (vs T4), Lost 3 (vs T2, T3, T4)
+        { id: 1, name: "Team 1", players: "Sanskar & Divvya", played: 4, won: 1, lost: 3 },
         
-        // T2: Won against T3, Won against T4
-        { id: 2, name: "Team 2", players: "Pratham & Bhavya", played: 2, won: 2, lost: 0 },
+        // T2: Played 4, Won 4 (Undefeated so far)
+        { id: 2, name: "Team 2", players: "Pratham & Bhavya", played: 4, won: 4, lost: 0 },
         
-        // T3: Lost to T2, Won against T1
-        { id: 3, name: "Team 3", players: "Mradul & Ayush", played: 2, won: 1, lost: 1 },
+        // T3: Played 4, Won 1 (vs T1), Lost 3 (vs T2, T4, T2)
+        { id: 3, name: "Team 3", players: "Mradul & Ayush", played: 4, won: 1, lost: 3 },
         
-        // T4: Won against T1, Lost to T2
-        { id: 4, name: "Team 4", players: "Suprit & Japneet", played: 2, won: 1, lost: 1 }
+        // T4: Played 4, Won 2 (vs T1, T3), Lost 2 (vs T2, T1)
+        { id: 4, name: "Team 4", players: "Suprit & Japneet", played: 4, won: 2, lost: 2 }
     ];
 
     function calculatePoints(team) {
